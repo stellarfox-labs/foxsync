@@ -7,7 +7,7 @@ Thank you for contributing to FoxSync — the GitHub webhook service that bridge
 ## Getting Started
 
 ```bash
-git clone https://github.com/foxchain-labs/foxsync
+git clone https://github.com/vaultfox-protocol/foxsync
 cd foxsync
 npm install
 cp .env.example .env
@@ -21,7 +21,7 @@ Requirements: Node.js 20+, a Stellar testnet account, deployed reputation contra
 
 ## How to Contribute
 
-1. Browse [open issues](https://github.com/foxchain-labs/foxsync/issues)
+1. Browse [open issues](https://github.com/vaultfox-protocol/foxsync/issues)
 2. Comment to express interest
 3. Fork → branch → code → PR
 
