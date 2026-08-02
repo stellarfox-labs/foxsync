@@ -11,6 +11,7 @@ import express from "express";
 import { config } from "./config.js";
 import { webhookRouter } from "./routes/webhook.js";
 import { registryRouter } from "./routes/registry.js";
+import { historyRouter } from "./routes/history.js";
 import { setContributionEventHandler } from "./github/webhookHandler.js";
 import { processContributionEvent } from "./services/contributionProcessor.js";
 import { mkdirSync } from "fs";
@@ -49,6 +50,7 @@ app.use((_req, res, next) => {
 
 app.use("/webhook", webhookRouter);
 app.use("/contributors", registryRouter);
+app.use("/contributors", historyRouter);
 
 // Health check — used by deployment platforms and monitoring
 app.get("/health", (_req, res) => {
@@ -81,6 +83,8 @@ const server = app.listen(config.PORT, () => {
   console.log(`  GET  /health          — Health check`);
   console.log(`  POST /contributors    — Register contributor Stellar address`);
   console.log(`  GET  /contributors/:u — Look up contributor`);
+  console.log(`  GET  /contributors/:u/points         — FoxPoints history`);
+  console.log(`  GET  /contributors/:u/points/summary — Points by repo`);
 });
 
 // Graceful shutdown
