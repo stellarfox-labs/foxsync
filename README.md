@@ -86,6 +86,25 @@ cd grantfox-webhook-sync
 npm install
 ```
 
+### Docker (recommended for production)
+
+```bash
+cp .env.example .env
+# Fill in your values
+
+# Start with Docker
+docker compose up --build
+
+# Run in background
+docker compose up -d --build
+
+# View logs
+docker compose logs -f foxsync
+
+# Stop
+docker compose down
+```
+
 ### 2. Configure environment
 
 ```bash
@@ -180,4 +199,4 @@ Apache 2.0
 
 ## Organization
 
-**[github.com/stellarfox-labs](https://github.com/stellarfox-labs)**
+**[github.com/vaultfox-protocol](https://github.com/vaultfox-protocol)**

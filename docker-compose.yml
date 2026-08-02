@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  foxsync:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      # GitHub Webhook
+      GITHUB_WEBHOOK_SECRET: ${GITHUB_WEBHOOK_SECRET}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+
+      # Stellar Network
+      STELLAR_NETWORK: ${STELLAR_NETWORK:-testnet}
+      STELLAR_RPC_URL: ${STELLAR_RPC_URL:-https://soroban-testnet.stellar.org}
+      STELLAR_NETWORK_PASSPHRASE: ${STELLAR_NETWORK_PASSPHRASE:-Test SDF Network ; September 2015}
+      STELLAR_OPERATOR_SECRET: ${STELLAR_OPERATOR_SECRET}
+
+      # Contract IDs
+      REPUTATION_CONTRACT_ID: ${REPUTATION_CONTRACT_ID:-CD2VIBP7TYVGW6NRFIM4WKUQDNUIIT2UB66CPF7K77DOO2WOMO4KB7U4}
+      ESCROW_CONTRACT_ID: ${ESCROW_CONTRACT_ID:-CCQ7CUG4NZ6QSAG62OMCVYWXVPXJMBJF2WCA6WJRBZ3YOQ4K2DWN5RHV}
+
+      # GrantFox API (optional)
+      GRANTFOX_API_URL: ${GRANTFOX_API_URL:-}
+      GRANTFOX_API_KEY: ${GRANTFOX_API_KEY:-}
+
+      # Server
+      PORT: 3001
+      NODE_ENV: ${NODE_ENV:-production}
+    volumes:
+      - foxsync_data:/app/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  foxsync_data:
+    driver: local
