@@ -94,6 +94,24 @@ export async function awardFoxPoints(
     throw new Error(`Transaction did not succeed: ${getResult.status}`);
   }
 
+  // Notify configured webhook about the successful award (non-blocking, errors logged)
+  if (config.FOXPOINTS_AWARD_WEBHOOK_URL) {
+    try {
+      await fetch(config.FOXPOINTS_AWARD_WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          txHash: sendResult.hash,
+          stellarAddress,
+          points,
+        }),
+      });
+      console.log("📣 FoxPoints award webhook sent");
+    } catch (err) {
+      console.error("Failed to send FoxPoints award webhook:", err);
+    }
+  }
+
   return sendResult.hash;
 }
 

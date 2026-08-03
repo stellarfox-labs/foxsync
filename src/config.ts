@@ -35,6 +35,9 @@ const configSchema = z.object({
   GRANTFOX_API_URL: z.string().url().optional(),
   GRANTFOX_API_KEY: z.string().optional(),
 
+  // Optional webhook to notify when FoxPoints are awarded on-chain
+  FOXPOINTS_AWARD_WEBHOOK_URL: z.string().url().optional(),
+
   // Server
   PORT: z.coerce.number().default(3001),
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
